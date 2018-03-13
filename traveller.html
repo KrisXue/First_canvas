@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+    <title>
+    </title>
+    <style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .in{
+        width: 300px; 
+        height: 350px; 
+        float:left;
+        border: 1px solid #f00;
+        padding:15px;
+    }
+    </style>
+</head>
+<body onload="init()">
+
+    <div class="in">
+	    <div style="margin-bottom:15px">
+			<input id="create" type="number" /><button style="margin-left: 15px;padding:0 15px" onclick="createPoint()">生成点</button>
+		</div>
+		<div>
+			<button style="padding:0 15px" onclick="createLine()">提交</button>
+		</div>
+    </div>
+
+    <div  style="float: left">
+        <canvas id="canvas1" width="700" height="700" style="border:1px solid #000;"></canvas>
+    </div>
+
+
+
+
+<script type="text/javascript">
+    // value
+    var canvas1=document.getElementById("canvas1");
+    var context=canvas1.getContext("2d");
+    var x0=0.05*canvas1.width-5;
+    var y0=0.95*canvas1.height;
+    var create=document.getElementById("create")
+	var arr=[];
+
+
+    // function
+    function init(){
+    	drawLine() 
+    	drawNumber()
+    	// createPoint()
+    	// drawPoint()
+    }
+
+    function drawLine(){
+        context.moveTo(0.05*canvas1.width,0);
+        context.lineTo(0.05*canvas1.width,0.95*canvas1.height);
+        context.lineTo(canvas1.width,0.95*canvas1.height);
+        context.moveTo(0.04*canvas1.width,10);
+        context.lineTo(0.05*canvas1.width,0);
+        context.lineTo(0.06*canvas1.width,10);
+        context.moveTo(canvas1.width-10,0.94*canvas1.height);
+        context.lineTo(canvas1.width,0.95*canvas1.height);
+        context.lineTo(canvas1.width-10,0.96*canvas1.height);
+        context.strokeStyle='red';
+        context.lineWidth=2;
+        context.stroke();
+        context.beginPath();
+	}
+
+       
+
+	function drawNumber(){
+        var textX=0;
+        for(var i=0;i<10;i++){
+            context.font="15pt Calibri";
+            context.fillText(textX,x0,y0+20);
+            textX+=10;
+            x0+=0.1*(canvas1.width-35);
+        }//X轴的数字
+
+
+        var textY=10;
+        x0=10;
+        for(var i=0;i<9;i++){
+            y0-=0.1*(canvas1.height-35);
+            context.font="15pt Calibri";
+            context.fillText(textY,x0,y0);
+            textY+=10;
+        }
+	}
+
+	function createPoint(){
+		if(create.value==''){
+			alert("请输入num");
+		}
+		arr=[];
+		var n=create.value;
+		console.log(n);
+    	for(var i=0;i<n;i++){
+			var obj={}
+			obj.x=Math.floor(Math.random() * (693 - 42)+42);
+			obj.y=Math.floor(Math.random() * (658 - 7) + 7);
+			arr.push(obj);
+    	}
+    	console.log(arr);
+    	for(var i=0;i<arr.length;i++){
+    		context.beginPath();
+    		context.arc(arr[i].x,arr[i].y,1,0,2*Math.PI);
+	        context.stroke();
+    	}
+	}
+
+
+	// function get(){
+	// 	$.post("/dfasdsaf"{
+ //    		array: arr;
+ //  		}
+
+ // 		function(req,res){
+ //    		createLine()
+ //  		});
+	// }
+	
+	function createLine(){
+		var a=arr;
+		context.moveTo(a[0].x,a[0].y);
+ 			for(var i=1;i<a.length;i++){
+ 				context.lineTo(a[i].x,a[i].y);
+ 			}
+ 		context.lineTo(a[0].x,a[0].y);
+ 		context.strokeStyle='red';
+        context.lineWidth=2;
+        context.stroke();
+        context.beginPath();
+	}
+	
+
+</script>
+
+</body>
+</html>
